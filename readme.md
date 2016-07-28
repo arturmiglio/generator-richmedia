@@ -16,7 +16,7 @@ For more information on what `generator-richmedia` can do for you, take a look a
 
 Requires [NPM](https://github.com/npm/npm) previously installed.
 
-- Install: `npm install -g generator-banner`
+- Install: `npm install -g generator-richmedia`
 - Run: `yo richmedia`
 - For additional sizes, run: `yo richmedia:add [WIDTH]x[HEIGHT]`
 - Run: `gulp --target=[WIDTH]x[HEIGHT]` for preview and live reload
