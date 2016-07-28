@@ -1,4 +1,4 @@
-# Banner generator
+# RichMedia Banner generator
 
 [Yeoman](http://yeoman.io) generator for HTML5 banner development.
 
@@ -7,24 +7,20 @@
 ## Features
 
 * CSS Autoprefixing
-* Built-in preview server with LiveReload
-* Spritesheet generation support using grunt sprite
+* Built-in preview server with BrowserSync
 
-For more information on what `generator-banner` can do for you, take a look at the [Grunt tasks](https://github.com/yeoman/generator-banner/blob/master/app/templates/_package.json) used in `package.json`.
+For more information on what `generator-richmedia` can do for you, take a look at the [Gulp tasks](https://github.com/yeoman/generator-richmedia/blob/master/app/templates/gulpfile.js) used in `gulpfile.js`.
 
 
 ## Getting Started
 
+Requires [NPM](https://github.com/npm/npm) previously installed.
+
 - Install: `npm install -g generator-banner`
-- Run: `yo banner`
-- For additional sizes, run: `yo banner:add [WIDTH]x[HEIGHT]`
-- Run: `grunt serve --target=[WIDTH]x[HEIGHT]` for preview and live reload
-- Run: `grunt build --target=[WIDTH]x[HEIGHT]` for a production ready build
-
-
-#### Grunt Serve Note
-
-Note: `grunt server` was used for previewing in earlier versions of the project, and has since been deprecated in favor of `grunt serve`.
+- Run: `yo richmedia`
+- For additional sizes, run: `yo richmedia:add [WIDTH]x[HEIGHT]`
+- Run: `gulp --target=[WIDTH]x[HEIGHT]` for preview and live reload
+- Run: `gulp build --target=[WIDTH]x[HEIGHT] --production` for a production ready build
 
 
 ## Options
