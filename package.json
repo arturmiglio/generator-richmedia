@@ -1,13 +1,13 @@
 {
-  "name": "generator-banner",
-  "version": "1.2.0",
-  "description": "Scaffold out an HTML5 banner",
+  "name": "generator-richmedia",
+  "version": "1.0.0",
+  "description": "Scaffold out an RichMedia HTML5 banner (with support to Weborama add server)",
   "license": "MIT",
-  "repository": "midnightprojects/generator-banner",
+  "repository": "",
   "author": {
-    "name": "",
-    "email": "",
-    "url": "https://github.com/midnightprojects"
+    "name": "Antiloop.io",
+    "email": "hello@antiloop.io",
+    "url": "http://antiloop.io"
   },
   "main": "app/index.js",
   "scripts": {
@@ -17,7 +17,9 @@
     "yeoman-generator",
     "banner",
     "web",
-    "HTML5"
+    "HTML5",
+    "weborama",
+    "richmedia"
   ],
   "dependencies": {
     "chalk": "^1.0.0",
@@ -27,8 +29,5 @@
     "yeoman-generator": "^0.20.1",
     "yosay": "^1.0.4", 
     "camelcase": "^1.2.1"
-  },
-  "devDependencies": {
-    "grunt-cli": "^0.1.13"
   }
 }
