@@ -1,2 +1,2 @@
-$banner-width: 980px;
-$banner-height: 250px;
+$banner-width: <%= bannerWidth %>;
+$banner-height: <%= bannerHeight %>;
