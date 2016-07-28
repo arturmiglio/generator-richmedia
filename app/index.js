@@ -228,7 +228,7 @@ module.exports = generators.Base.extend({
         },
 
         run: function() {
-            this.composeWith('banner:add', {args: [this.props.bannerSize]});
+            this.composeWith('richmedia:add', {args: [this.props.bannerSize]});
         }
     },
 
