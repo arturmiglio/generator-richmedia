@@ -29,76 +29,34 @@ module.exports = yeoman.generators.Base.extend({
 
         scripts: function () {
             this.fs.copy(
-                this.templatePath('main.js'),
-                this.destinationPath("app/" + this.bannerSize + '/scripts/main.js')
-            );
-
-            if (this.bannerType === "DoubleClick") {
-                this.fs.copy(
-                    this.templatePath('BannerDoubleClick.js'),
-                    this.destinationPath("app/" + this.bannerSize + '/scripts/BannerDoubleClick.js')
-                );
-            }
-
-            if (this.bannerType === "Sizmek") {
-                this.fs.copy(
-                    this.templatePath('BannerSizmek.js'),
-                    this.destinationPath("app/" + this.bannerSize + '/scripts/BannerSizmek.js')
-                );
-            }
-
-            if (this.bannerType === "Flashtalking") {
-                this.fs.copy(
-                    this.templatePath('BannerFlashtalking.js'),
-                    this.destinationPath("app/" + this.bannerSize + '/scripts/BannerFlashtalking.js')
-                );
-
-                this.fs.copyTpl(
-                    this.templatePath('manifest.js'),
-                    this.destinationPath("app/" + this.bannerSize + '/manifest.js'), 
-                    {
-                        bannerWidth: parseInt(this.bannerSize.split("x")[0]), 
-                        bannerHeight: parseInt(this.bannerSize.split("x")[1])
-                    }
-                );
-            } 
-
-            if (this.bannerType === "None") {
-                this.fs.copy(
-                    this.templatePath('Banner.js'),
-                    this.destinationPath("app/" + this.bannerSize + '/scripts/Banner.js')
-                );
-            }           
-
-            this.fs.copy(
-                this.templatePath('Animation.js'),
-                this.destinationPath("app/" + this.bannerSize + '/scripts/Animation.js')
+                this.templatePath('scripts/overrides.js'),
+                this.destinationPath('app/' + this.bannerSize + '/scripts/overrides.js')
             );
         },
 
         styles: function () {
-            var stylesheet = 'main.scss';
 
             this.fs.copyTpl(
-                this.templatePath(stylesheet),
-                this.destinationPath("app/" + this.bannerSize + '/styles/' + stylesheet), 
+                this.templatePath('styles/app.scss'),
+                this.destinationPath('app/' + this.bannerSize + '/styles/app.scss')
+            );
+            
+            this.fs.copyTpl(
+                this.templatePath('styles/config.scss'),
+                this.destinationPath('app/' + this.bannerSize + '/styles/config.scss'),
                 {
                     bannerWidth: this.bannerSize.split("x")[0] + "px", 
                     bannerHeight: this.bannerSize.split("x")[1] + "px"
                 }
-            )
-        },            
-
-        html: function () {
-            this.fs.copyTpl(
-                this.templatePath('index.html'),
-                this.destinationPath("app/" + this.bannerSize + '/index.html'),
-                {
-                    appname: this.appname, 
-                    bannerType: this.bannerType, 
-                    includeZepto: this.includeZepto
-                }
             );
+
+            this.fs.copyTpl(
+                this.templatePath('styles/overrides.scss'),
+                this.destinationPath('app/' + this.bannerSize + '/styles/overrides.scss')
+            );
+
+            
+
         }
     }
 });

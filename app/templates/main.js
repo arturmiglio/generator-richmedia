@@ -1,3 +1,6 @@
+// ===================
+// ===== MAIN.JS =====
+// ===================
 var app = app || {}; 
 
 // set this variable to TRUE if the Prealoader is going to be used

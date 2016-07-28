@@ -5,10 +5,10 @@ Options:
     
 
 Example:
-    yo banner
+    yo richmedia
 
     This will create:
-        Gruntfile.js: Configuration for the task runner.
+        gulpfile.js: Configuration for the task runner.
         bower.json: Front-end packages installed by bower.
         package.json: Development packages installed by npm.
 
@@ -16,13 +16,11 @@ Example:
 
 
 
-Grunt commands:
+Run the richmedia:
 
-grunt serve --target=[WIDTH]x[HEIGHT]
-grunt build --target=[WIDTH]x[HEIGHT]
-grunt sprite
+gulp --target=[WIDTH]x[HEIGHT]  (eg.: gulp --target=980x250)
 
 
-Sub Generator:
+Add a new richmedia size:
 
-yo banner:add [WIDTH]x[HEIGHT]
+yo richmedia:add [WIDTH]x[HEIGHT] (eg.: yo richmedia:add --target=300x250)

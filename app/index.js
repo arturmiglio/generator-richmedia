@@ -49,14 +49,14 @@ module.exports = generators.Base.extend({
                 type: 'list',
                 name: 'bannerType',
                 message: 'What type of banner is it?',
-                choices: ['DoubleClick', 'Sizmek', 'Flashtalking', 'None'],
-                default: 'DoubleClick'
+                choices: ['Weborama', 'DoubleClick', 'Sizmek', 'Flashtalking', 'None'],
+                default: 'Weborama'
             },
             {
                 type: 'input',
                 name: 'bannerSize',
-                message: 'What size do you need? (300x250):',
-                default: "300x250"
+                message: 'What size do you need? (980x250):',
+                default: "980x250"
             }, 
             {
                 type: 'confirm',
@@ -75,17 +75,27 @@ module.exports = generators.Base.extend({
     // ---------------------------------------------------------------------------
     config: function() {
         this.config.set('bannerType', this.props.bannerType);
+        this.config.set('bannerSize', this.props.bannerSize);
         this.config.set('includeZepto', this.props.includeZepto);
     },
 
     // ---------------------------------------------------------------------------
     writing: {
-        gruntfile: function () {
+
+        misc: function () {
+            mkdirp("app/common");
+            mkdirp("app/common/fonts");
+            mkdirp("app/common/images");
+        },
+
+        gulpfile: function () {
             this.fs.copyTpl(
-                this.templatePath('Gruntfile.js'),
-                this.destinationPath('Gruntfile.js'),
+                this.templatePath('gulpfile.js'),
+                this.destinationPath('gulpfile.js'),
                 {
-                    pkg: this.pkg
+                    pkg: this.pkg,
+                    bannerSize: this.props.bannerSize,
+                    bannerType: this.props.bannerType
                 }
             );
         },
@@ -131,6 +141,89 @@ module.exports = generators.Base.extend({
             this.fs.copy(
                 this.templatePath('editorconfig'),
                 this.destinationPath('.editorconfig')
+            );
+        },
+
+        scripts: function () {
+            this.fs.copy(
+                this.templatePath('main.js'),
+                this.destinationPath('app/common/scripts/main.js')
+            );
+
+            if (this.props.bannerType === "DoubleClick") {
+                this.fs.copy(
+                    this.templatePath('BannerDoubleClick.js'),
+                    this.destinationPath('app/common/scripts/BannerDoubleClick.js')
+                );
+            }
+
+            if (this.props.bannerType === "Sizmek") {
+                this.fs.copy(
+                    this.templatePath('BannerSizmek.js'),
+                    this.destinationPath('app/common/scripts/BannerSizmek.js')
+                );
+            }
+
+            if (this.props.bannerType === "Weborama") {
+                this.fs.copyTpl(
+                    this.templatePath('BannerWeborama.js'),
+                    this.destinationPath('app/common/scripts/BannerWeborama.js'),
+                    {
+                        bannerWidth: parseInt(this.props.bannerSize.split("x")[0]), 
+                        bannerHeight: parseInt(this.props.bannerSize.split("x")[1])
+                    }
+                );
+            }
+
+            if (this.props.bannerType === "Flashtalking") {
+                this.fs.copy(
+                    this.templatePath('BannerFlashtalking.js'),
+                    this.destinationPath('app/common/scripts/BannerFlashtalking.js')
+                );
+
+                this.fs.copyTpl(
+                    this.templatePath('manifest.js'),
+                    this.destinationPath('app/common/manifest.js'), 
+                    {
+                        bannerWidth: parseInt(this.props.bannerSize.split("x")[0]), 
+                        bannerHeight: parseInt(this.props.bannerSize.split("x")[1])
+                    }
+                );
+            } 
+
+            if (this.props.bannerType === "None") {
+                this.fs.copy(
+                    this.templatePath('Banner.js'),
+                    this.destinationPath('app/common/scripts/Banner.js')
+                );
+            }           
+
+            this.fs.copy(
+                this.templatePath('Animation.js'),
+                this.destinationPath('app/common/scripts/Animation.js')
+            );
+        },
+
+        styles: function () {
+
+            this.fs.copy(
+                this.templatePath('main.scss'),
+                this.destinationPath('app/common/styles/main.scss')
+            );
+
+        },
+
+        html: function () {
+            this.fs.copyTpl(
+                this.templatePath('index.html'),
+                this.destinationPath('app/common/index.html'),
+                {
+                    appname: this.appname, 
+                    bannerType: this.props.bannerType, 
+                    includeZepto: this.props.includeZepto,
+                    bannerWidth: this.props.bannerSize.split("x")[0], 
+                    bannerHeight: this.props.bannerSize.split("x")[1]
+                }
             );
         },
 
