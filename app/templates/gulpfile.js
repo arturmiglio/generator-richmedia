@@ -13,11 +13,14 @@ var browserSync = require('browser-sync');
 var del = require('del');
 var runSequence = require('run-sequence');
 var gulpif = require('gulp-if');
+var rev = require('gulp-rev');
+var zip = require('gulp-zip');
 
 // Configurable paths
 var config = {
   app: 'app/',
   dist: 'dist/',
+  build: 'build/',
   prod: false
 };
 
@@ -80,8 +83,16 @@ var appFiles = {
   styles: [
     paths.size.styles.src + 'app.scss'
   ],
+  stylesToWatch: [
+    paths.main.styles.src + '**/*.scss',
+    paths.size.styles.src + '**/*.scss',
+  ],
   scripts: [
-    paths.main.scripts.src + 'BannerWeborama.js',
+    <% if (bannerType != 'None') { %>
+      paths.main.scripts.src + 'Banner<%= bannerType %>.js',
+    <% } else { %>
+      paths.main.scripts.src + 'Banner.js',
+    <% } %>  
     paths.main.scripts.src + 'Animation.js',
     paths.size.scripts.src + 'overrides.js',
     paths.main.scripts.src + 'main.js',
@@ -95,6 +106,12 @@ var appFiles = {
   ],
   html: [ 
     paths.main.html.src + 'index.html'
+  ],
+  dist: [ 
+    config.dist + '**/*.*'
+  ],
+  build: [ 
+    config.build + env + '/'
   ]
 };
 
@@ -159,6 +176,13 @@ gulp.task('fonts', function(){
     .pipe(gulp.dest(config.dist));
 });
 
+gulp.task('storeBuild', function(){
+  gulp.src(appFiles.dist)
+    .pipe(zip(env + '.zip'))
+    .pipe(rev())
+    .pipe(gulp.dest(String(appFiles.build)));
+});
+
 gulp.task('setEnvToProd', function(){
   return config.prod = true;
 });
@@ -167,14 +191,14 @@ gulp.task('default', function(callback) {
   runSequence('fonts', 'styles', 'scripts', 'images', 'html', 'browser-sync',
     callback
   );
-  gulp.watch(appFiles.styles, ['styles']);
+  gulp.watch(appFiles.stylesToWatch, ['styles']);
   gulp.watch(appFiles.scripts, ['scripts']);
   gulp.watch(appFiles.images, ['images']);
   gulp.watch(appFiles.html, ['html']);
 });
 
 gulp.task('build', ['setEnvToProd'], function(callback) {
-  runSequence('fonts', 'styles', 'scripts', 'images', 'html',
+  runSequence('fonts', 'styles', 'scripts', 'images', 'html', 'storeBuild',
     callback
   );
 });
