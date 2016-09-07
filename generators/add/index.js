@@ -54,16 +54,16 @@ module.exports = yeoman.generators.Base.extend({
                 this.destinationPath('app/' + this.bannerSize + '/styles/overrides.scss')
             );
 
-            var modPath = this.destinationPath('app/build.json');
-            this.fs.copy(
-                modPath,
-                modPath,
-                {
-                    process: function(content) {
-                        console.log(content);
-                    }
-                }
-            );
+            // var modPath = this.destinationPath('app/build.json');
+            // this.fs.copy(
+            //     modPath,
+            //     modPath,
+            //     {
+            //         process: function(content) {
+            //             console.log(content);
+            //         }
+            //     }
+            // );
 
         }
     }

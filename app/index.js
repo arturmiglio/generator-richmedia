@@ -108,7 +108,7 @@ module.exports = generators.Base.extend({
         },
 
         buildJSON: function () {
-            this.fs.copyTpl(
+            this.fs.copy(
                 this.templatePath('build.json'),
                 this.destinationPath('build.json')
             )
