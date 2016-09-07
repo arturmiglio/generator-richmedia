@@ -1,10 +1,12 @@
 Description:
+    
     Creates a new basic front-end web application for banners.
 
 Options:
     
 
 Example:
+    
     yo richmedia
 
     This will create:
@@ -15,12 +17,34 @@ Example:
         app/: Your application files.
 
 
+Add a new richmedia size:
+
+	yo richmedia:add [WIDTH]x[HEIGHT] (eg.: yo richmedia:add 300x250)
+
+
+================================================================================================================
+
 
 Run the richmedia:
 
-gulp --target=[WIDTH]x[HEIGHT]  (eg.: gulp --target=980x250)
+	gulp --target=[WIDTH]x[HEIGHT] (eg.: gulp --target=980x250)
 
 
-Add a new richmedia size:
+Build a specific target:
 
-yo richmedia:add [WIDTH]x[HEIGHT] (eg.: yo richmedia:add --target=300x250)
+	gulp build --target=[WIDTH]x[HEIGHT] (eg.: gulp build --target=980x250)
+
+
+Build a specific target using a specific language:
+
+	gulp build --target=[WIDTH]x[HEIGHT] --lang=[LANGUAGE-CODE] (eg.: gulp build --target=980x250 --lang=es)
+
+
+Build all available formats:
+
+	gulp build-all
+
+
+Add production flag to minimize assets and compress images:
+
+	gulp build-all --production
