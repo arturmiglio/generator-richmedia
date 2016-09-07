@@ -60,10 +60,16 @@ module.exports = generators.Base.extend({
             }, 
             {
                 type: 'confirm',
+                name: 'includeTimeline',
+                message: 'Include GSAP TimelineLite?',
+                default: false
+            },
+            {
+                type: 'confirm',
                 name: 'includeZepto',
                 message: 'Include Zepto?',
                 default: true
-            },   
+            }   
         ];
 
         this.prompt(prompts, function (props) {
@@ -76,6 +82,7 @@ module.exports = generators.Base.extend({
     config: function() {
         this.config.set('bannerType', this.props.bannerType);
         this.config.set('bannerSize', this.props.bannerSize);
+        this.config.set('includeTimeline', this.props.includeTimeline);
         this.config.set('includeZepto', this.props.includeZepto);
     },
 
@@ -98,6 +105,13 @@ module.exports = generators.Base.extend({
                     bannerType: this.props.bannerType
                 }
             );
+        },
+
+        buildJSON: function () {
+            this.fs.copyTpl(
+                this.templatePath('build.json'),
+                this.destinationPath('build.json')
+            )
         },
 
         packageJSON: function () {
@@ -202,6 +216,14 @@ module.exports = generators.Base.extend({
                 this.templatePath('Animation.js'),
                 this.destinationPath('app/common/scripts/Animation.js')
             );
+
+            this.fs.copyTpl(
+                this.templatePath('Init.js'),
+                this.destinationPath('app/common/scripts/Init.js'),
+                {
+                    includeTimeline: this.props.includeTimeline
+                }
+            );
         },
 
         styles: function () {
@@ -221,6 +243,7 @@ module.exports = generators.Base.extend({
                     appname: this.appname, 
                     bannerType: this.props.bannerType, 
                     includeZepto: this.props.includeZepto,
+                    includeTimeline: this.props.includeTimeline,
                     bannerWidth: this.props.bannerSize.split("x")[0], 
                     bannerHeight: this.props.bannerSize.split("x")[1]
                 }
@@ -244,7 +267,7 @@ module.exports = generators.Base.extend({
     end: function () {
         // var bowerJson = this.fs.readJSON(this.destinationPath('bower.json'));
         
-        var howToInstall = '\nAfter running ' + chalk.yellow.bold('npm install & bower install') + ', inject your' + '\nfront end dependencies by running ' + chalk.yellow.bold('grunt wiredep') + '.';
+        var howToInstall = '\nRun ' + chalk.yellow.bold('npm install & bower install') + 'to install the dependencies.';
 
         if (this.options['skip-install']) {
             this.log(howToInstall);
