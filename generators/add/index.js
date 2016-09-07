@@ -12,11 +12,10 @@ module.exports = yeoman.generators.Base.extend({
             required: true,
             type: String,
             desc: 'The subgenerator name'
-        });  
+        });
 
-        this.bannerType = this.config.get('bannerType');
-        this.includeZepto = this.config.get('includeZepto');
-        this.bannerSize = this.name; 
+        this.bannerSize = this.name;
+
     },
 
     // ---------------------------------------------------------------------------
@@ -55,7 +54,16 @@ module.exports = yeoman.generators.Base.extend({
                 this.destinationPath('app/' + this.bannerSize + '/styles/overrides.scss')
             );
 
-            
+            var modPath = this.destinationPath('app/build.json');
+            this.fs.copy(
+                modPath,
+                modPath,
+                {
+                    process: function(content) {
+                        console.log(content);
+                    }
+                }
+            );
 
         }
     }
