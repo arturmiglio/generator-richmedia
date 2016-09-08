@@ -1,75 +1,81 @@
 // ==================================
 // ===== BannerDoubleClick.JS =======
 // ==================================
-var app = app || {}; 
+var app = app || {};
+
+var isEnablerMode = true;
+
+var creative = {};
 
 
-app.Banner = (function () { 
-
-    // --------------------------------------------------------------------------------------
-    // check to see if Enabler has initialized
+app.Banner = (function() {
+    /**
+     * Window onload handler.
+     */
     function initialize() {
+        setupDom();
+
         if (Enabler.isInitialized()) {
-            enablerInitHandler();
-        } 
-        else {
+            init();
+        } else {
             Enabler.addEventListener(
-                studio.events.StudioEvent.INIT, 
-                handleEnablerInit
+                studio.events.StudioEvent.INIT,
+                init
             );
         }
     }
 
-    // --------------------------------------------------------------------------------------
-    // Runs when Enabler is ready.
-    function handleEnablerInit() {
-        dispatchEvent(new Event("READY"));
+    /**
+     * Initializes the ad components
+     */
+    function setupDom() {
+        creative.dom = {};
+        creative.dom.mainContainer = document.getElementById('banner');
+        creative.dom.exit = document.getElementById('button-exit');
+    }
 
-        document.getElementById('button-exit').addEventListener('click', handleExit, false);
+    /**
+     * Ad initialisation.
+     */
+    function init() {
 
-        // Check to see if page is loaded
-        if (Enabler.isPageLoaded()) {
-            politeInit();
-        } 
-        else {
-            Enabler.addEventListener(
-                studio.events.StudioEvent.PAGE_LOADED, 
-                handlePoliteInit
-            );
-        }
+        addListeners();
 
-        // Check to see if ad is visible on the page
+        // Polite loading
         if (Enabler.isVisible()) {
-            handleVisibility();
-        } 
-        else {
-            Enabler.addEventListener(
-                studio.events.StudioEvent.VISIBLE, 
-                handleVisibility
-            );
+            show();
+        } else {
+            Enabler.addEventListener(studio.events.StudioEvent.VISIBLE, show);
         }
+
+        dispatchEvent('READY');
+
+        app.Init.preload();
     }
 
-    // --------------------------------------------------------------------------------------
-    // Load in additional assets or start the animation/video
-    function handleVisibility() {
-        dispatchEvent(new Event("AD_VISIBLE"));  
+    /**
+     * Adds appropriate listeners at initialization time
+     */
+    function addListeners() {
+        creative.dom.exit.addEventListener('click', exitClickHandler);
+        creative.dom.mainContainer.addEventListener('click', exitClickHandler);
     }
 
-    // --------------------------------------------------------------------------------------
-    // Runs when the page is completely loaded.     
-    function handlePoliteInit() {  
-        dispatchEvent(new Event("POLITE_READY"));        
+    /**
+     *  Shows the ad.
+     */
+    function show() {
+        creative.dom.exit.style.display = 'block';
     }
 
-    // --------------------------------------------------------------------------------------
-    function handleExit(e) {
+    /**
+     *  Exit click handler.
+     */
+    function exitClickHandler() {
         Enabler.exit('Background Exit');
-    }
+    }// --------------------------------------------------------------------------------------
 
-    // --------------------------------------------------------------------------------------
-    // Publicly accessible methods and properties
-    return { 
-        initialize:initialize    
+    return {
+        initialize: initialize
     }
 })();

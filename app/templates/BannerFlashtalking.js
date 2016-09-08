@@ -14,6 +14,7 @@ app.Banner = (function () {
         myFT.applyClickTag(button, 1);
 
         dispatchEvent(new Event("READY"));
+        app.Init.preload();
     }
 
     // --------------------------------------------------------------------------------------

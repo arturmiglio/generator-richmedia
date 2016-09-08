@@ -23,27 +23,7 @@ app.Banner = (function () {
         screenad.position();
 
         document.getElementById('button-exit').addEventListener('click', handleExit, false);
-        preloadAssets();
-    }
-
-    // --------------------------------------------------------------------------------------
-    // preload
-    function preloadAssets(){
-      preloader = new createjs.LoadQueue(false);
-      preloader.setMaxConnections(6);
-      loadFirstLoad();
-    }
-    function loadFirstLoad(){
-      var assets = [];
-      for (var i = 0; i < firstLoadFiles.length; i++) {
-        assets.push( {id:firstLoadFiles[i], src:firstLoadFiles[i]} );
-      }
-      preloader.on("complete", onFirstLoadComplete, this, true);
-      preloader.loadManifest(assets, true);
-    }
-    function onFirstLoadComplete(){
-      console.log('Preloader: first load complete');
-      dispatchEvent(new Event("FIRSTLOAD"));
+        app.Init.preload();
     }
 
     // --------------------------------------------------------------------------------------

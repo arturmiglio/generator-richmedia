@@ -24,7 +24,8 @@ app.Banner = (function () {
     // Runs when EB is ready.
     function handleEBInit() {
         dispatchEvent(new Event("READY"));
-        document.getElementById('button-exit').addEventListener('click', handleExit, false);        
+        document.getElementById('button-exit').addEventListener('click', handleExit, false);
+        app.Init.preload();        
     }
 
     // --------------------------------------------------------------------------------------
