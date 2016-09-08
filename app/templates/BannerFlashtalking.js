@@ -13,7 +13,7 @@ app.Banner = (function () {
         button = myFT.$("#button-exit");
         myFT.applyClickTag(button, 1);
 
-        dispatchEvent(new Event("READY"));
+        customDispatchEvent('READY');
         app.Init.preload();
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "generator-richmedia",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Scaffold out an RichMedia HTML5 banner (with support to Weborama add server)",
   "license": "MIT",
   "repository": "https://bitbucket.org/antiloop-studio/generator-richmedia",
