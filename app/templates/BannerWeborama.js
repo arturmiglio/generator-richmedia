@@ -13,10 +13,10 @@ app.Banner = (function () {
     // --------------------------------------------------------------------------------------
     // initialize
     function initialize() {
-        dispatchEvent(new Event("READY"));
+        customDispatchEvent('READY');
 
         screenad.setAlignment('banner', 'banner');
-        screenad.setSize("<%= bannerWidth %>", "<%= bannerHeight %>");
+        screenad.setSize('<%= bannerWidth %>', '<%= bannerHeight %>');
         screenad.setSticky(true);
         screenad.setZIndex(1);
         screenad.setOffset(0, 0)

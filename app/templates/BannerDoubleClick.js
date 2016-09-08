@@ -48,7 +48,7 @@ app.Banner = (function() {
             Enabler.addEventListener(studio.events.StudioEvent.VISIBLE, show);
         }
 
-        dispatchEvent('READY');
+        customDispatchEvent('READY');
 
         app.Init.preload();
     }
