@@ -69,6 +69,12 @@ module.exports = generators.Base.extend({
                 name: 'includeZepto',
                 message: 'Include Zepto?',
                 default: true
+            },
+            {
+                type: 'confirm',
+                name: 'useLocales',
+                message: 'Do you need internationalization?',
+                default: false
             }   
         ];
 
@@ -84,6 +90,7 @@ module.exports = generators.Base.extend({
         this.config.set('bannerSize', this.props.bannerSize);
         this.config.set('includeTimeline', this.props.includeTimeline);
         this.config.set('includeZepto', this.props.includeZepto);
+        this.config.set('useLocales', this.props.useLocales);
     },
 
     // ---------------------------------------------------------------------------
@@ -93,6 +100,7 @@ module.exports = generators.Base.extend({
             mkdirp("app/common");
             mkdirp("app/common/fonts");
             mkdirp("app/common/images");
+            mkdirp("app/common/locales/es");
         },
 
         gulpfile: function () {
@@ -102,7 +110,8 @@ module.exports = generators.Base.extend({
                 {
                     pkg: this.pkg,
                     bannerSize: this.props.bannerSize,
-                    bannerType: this.props.bannerType
+                    bannerType: this.props.bannerType,
+                    useLocales: this.props.useLocales
                 }
             );
         },
@@ -119,6 +128,15 @@ module.exports = generators.Base.extend({
                 this.templatePath('_package.json'),
                 this.destinationPath('package.json')
             )
+        },
+
+        locales: function () {
+            if (this.props.useLocales) {
+                this.fs.copy(
+                    this.templatePath('index.json'),
+                    this.destinationPath('app/common/locales/es/index.json')
+                )
+            }
         },
 
         git: function () {
@@ -244,6 +262,7 @@ module.exports = generators.Base.extend({
                     bannerType: this.props.bannerType, 
                     includeZepto: this.props.includeZepto,
                     includeTimeline: this.props.includeTimeline,
+                    useLocales: this.props.useLocales,
                     bannerWidth: this.props.bannerSize.split("x")[0], 
                     bannerHeight: this.props.bannerSize.split("x")[1]
                 }

@@ -120,9 +120,9 @@ function setup(argv) {
         paths.main.scripts.src + 'Init.js',
       ],
       main: [
+        paths.main.scripts.src + 'main.js',
         paths.main.scripts.src + 'Animation.js',
         paths.size.scripts.src + 'overrides.js',
-        paths.main.scripts.src + 'main.js',
       ],
       external: [
         
@@ -293,18 +293,18 @@ gulp.task('locales', function(callback) {
 });
 
 gulp.task('default', function(callback) {
-  runSequence('cleanDist', 'images', 'fonts', 'styles', 'scripts', 'html', 'browser-sync',
+  runSequence('cleanDist', 'images', 'fonts', 'styles', 'scripts', <% if (useLocales) { %> 'locales' <% } else { %> 'html' <% } %>, 'browser-sync',
     callback
   );
   gulp.watch(appFiles.stylesToWatch, ['styles']);
   gulp.watch(appFiles.scripts.init, ['scripts']);
   gulp.watch(appFiles.scripts.main, ['scripts']);
   gulp.watch(appFiles.images, ['images']);
-  gulp.watch(appFiles.html, ['html']);
+  gulp.watch(appFiles.html, ['locales']);
 });
 
 gulp.task('build', ['setEnvToProd'], function(callback) {
-  runSequence('cleanDist', 'images', 'fonts', 'styles', 'scripts', 'html', 'storeBuild',
+  runSequence('cleanDist', 'images', 'fonts', 'styles', 'scripts', <% if (useLocales) { %> 'locales' <% } else { %> 'html' <% } %>, 'storeBuild',
     callback
   );
 });
