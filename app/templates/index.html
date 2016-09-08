@@ -1,6 +1,9 @@
 <!doctype html>
-<% if (useLocales) { %> <html lang="${{ _lang_ }}$"> <% } %>
-<% else { %> <html lang="es"> <% } %>
+<% if (useLocales) { %> 
+<html lang="${{ _lang_ }}$">
+<% } else { %> 
+<html lang="es"> 
+<% } %>
 <head>
     <% if (bannerType === 'Weborama') { %>
     <!-- ADRIME SCREENAD META DATA (don't edit/remove) -->
@@ -21,8 +24,11 @@
     <% if (bannerType === 'Weborama') { %><script type="text/javascript" src="//media.adrcdn.com/scripts/screenad_interface_1.0.3_scrambled.js"></script><% } %>
 
 </head>
-<% if (useLocales) { %> <body class="${{ _lang_ }}$"> <% } %>
-<% else { %> <body> <% } %>
+<% if (useLocales) { %>
+<body class="${{ _lang_ }}$">
+<% } else { %> 
+<body> 
+<% } %>
     <div id="banner">        
         <h1 id="title">Freakin Banners!</h1>
         <p id="caption">Get some</p>
