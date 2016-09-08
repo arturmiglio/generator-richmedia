@@ -239,7 +239,8 @@ module.exports = generators.Base.extend({
                 this.templatePath('Init.js'),
                 this.destinationPath('app/common/scripts/Init.js'),
                 {
-                    includeTimeline: this.props.includeTimeline
+                    includeTimeline: this.props.includeTimeline,
+                    includeZepto: this.props.includeZepto
                 }
             );
         },
