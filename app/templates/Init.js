@@ -55,6 +55,7 @@ app.Init = (function () {
 
 	function preloadAssets(){
 		preloader = new createjs.LoadQueue(false);
+		preloader.setMaxConnections(6);
 		preloader.on('complete', onFirstLoadComplete, this, true);
 		preloader.loadManifest(firstLoadFiles, true);
 	}
