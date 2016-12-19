@@ -123,6 +123,13 @@ module.exports = generators.Base.extend({
             )
         },
 
+        readme: function () {
+            this.fs.copy(
+                this.templatePath('README.md'),
+                this.destinationPath('README.md')
+            )
+        },
+
         packageJSON: function () {
             this.fs.copyTpl(
                 this.templatePath('_package.json'),
