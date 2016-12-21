@@ -16,6 +16,7 @@ var runSequence = require('run-sequence');
 var gulpif = require('gulp-if');
 var i18n = require('gulp-html-i18n');
 var rename = require("gulp-rename");
+var replace = require('gulp-replace-task');
 var rev = require('gulp-rev');
 var zip = require('gulp-zip');
 
@@ -235,7 +236,15 @@ gulp.task('scripts', ['scripts-init', 'scripts-external'], function(){
 });
 
 gulp.task('html', function(){
-  return gulp.src(appFiles.html)
+  <% if (useLocales) { %> return gulp.src(config.dist + 'index.html') <% } else { %> return gulp.src(appFiles.html) <% } %>
+    .pipe(replace({
+      patterns: [
+        {
+          match: 'bannerSize',
+          replacement: env
+        }
+      ]
+    }))
     .pipe(gulp.dest(config.dist))
     .pipe(browserSync.reload({stream:true}))
 });
@@ -286,11 +295,19 @@ gulp.task('cleanBuild', function() {
   return del.sync(path);
 });
 
+<% if (useLocales) { %>
+gulp.task('locales', function(callback) {
+  runSequence('localize', 'cleanLocales', 'html',
+    callback
+  );
+});
+<% } else { %>
 gulp.task('locales', function(callback) {
   runSequence('localize', 'cleanLocales',
     callback
   );
 });
+<% } %>
 
 gulp.task('default', function(callback) {
   runSequence('cleanDist', 'images', 'fonts', 'styles', 'scripts', <% if (useLocales) { %> 'locales' <% } else { %> 'html' <% } %>, 'browser-sync',

@@ -1,7 +1,7 @@
 {
   "name": "generator-richmedia",
-  "version": "1.0.13",
-  "description": "Scaffold out an RichMedia HTML5 banner (with support to Weborama add server)",
+  "version": "1.0.14",
+  "description": "Scaffold out an RichMedia HTML5 banner (with support to Weborama ad-server)",
   "license": "MIT",
   "repository": "https://github.com/arturmiglio/generator-richmedia",
   "author": {
