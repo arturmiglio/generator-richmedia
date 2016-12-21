@@ -311,14 +311,20 @@ gulp.task('build', ['setEnvToProd'], function(callback) {
 
 gulp.task('build-lang', ['cleanBuild', 'cleanDist'], function(callback) {
   var i = -1;
+  var lang = argv.lang;
+
+  var formats = builds.formats;
+  if (builds.localeSpecificFormats && builds.localeSpecificFormats[lang]) {
+    formats = formats.concat(builds.localeSpecificFormats[lang]);
+  }
 
   function next() {
     i++;
-    var format = builds.formats[i];
-    if (i < builds.formats.length) {
+    var format = formats[i];
+    if (i < formats.length) {
       setup({
         target: format,
-        lang: argv.lang,
+        lang: lang,
         production: argv.production,
         zip: argv.zip
       });
