@@ -3,17 +3,14 @@
 // =============================
 var app = app || {}; 
 
-var firstLoadFiles = [
-    //"file1.jpg",
-    //"file2.jpg"
-];
-
 app.Banner = (function () { 
 
     // --------------------------------------------------------------------------------------
     // initialize
     function initialize() {
-        customDispatchEvent('READY');
+        var event = document.createEvent('Event');
+        event.initEvent('READY', false, true); 
+        window.dispatchEvent(event);
 
         screenad.setAlignment('banner', 'banner');
         screenad.setSize('<%= bannerWidth %>', '<%= bannerHeight %>');
@@ -23,6 +20,7 @@ app.Banner = (function () {
         screenad.position();
 
         document.getElementById('button-exit').addEventListener('click', handleExit, false);
+
         app.Init.preload();
     }
 

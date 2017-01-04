@@ -49,7 +49,7 @@ module.exports = generators.Base.extend({
                 type: 'list',
                 name: 'bannerType',
                 message: 'What type of banner is it?',
-                choices: ['Weborama', 'DoubleClick', 'Sizmek', 'Flashtalking', 'None'],
+                choices: ['Weborama', 'DoubleClickManager', 'DoubleClickStudio', 'Sizmek', 'Flashtalking', 'None'],
                 default: 'Weborama'
             },
             {
@@ -97,10 +97,10 @@ module.exports = generators.Base.extend({
     writing: {
 
         misc: function () {
-            mkdirp("app/common");
-            mkdirp("app/common/fonts");
-            mkdirp("app/common/images");
-            mkdirp("app/common/locales/es");
+            mkdirp('app/common');
+            mkdirp('app/common/fonts');
+            mkdirp('app/common/images');
+            mkdirp('app/common/locales/es');
         },
 
         gulpfile: function () {
@@ -117,9 +117,12 @@ module.exports = generators.Base.extend({
         },
 
         buildJSON: function () {
-            this.fs.copy(
+            this.fs.copyTpl(
                 this.templatePath('build.json'),
-                this.destinationPath('build.json')
+                this.destinationPath('build.json'),
+                {
+                    bannerSize: this.props.bannerSize
+                }
             )
         },
 
@@ -185,57 +188,65 @@ module.exports = generators.Base.extend({
 
         scripts: function () {
             this.fs.copy(
-                this.templatePath('main.js'),
-                this.destinationPath('app/common/scripts/main.js')
+                this.templatePath('Main.js'),
+                this.destinationPath('app/common/scripts/Main.js')
             );
 
-            if (this.props.bannerType === "DoubleClick") {
-                this.fs.copy(
-                    this.templatePath('BannerDoubleClick.js'),
-                    this.destinationPath('app/common/scripts/BannerDoubleClick.js')
-                );
+            switch (this.props.bannerType) {
+                case "Weborama":
+                    this.fs.copyTpl(
+                        this.templatePath('BannerWeborama.js'),
+                        this.destinationPath('app/common/scripts/BannerWeborama.js'),
+                        {
+                            bannerWidth: parseInt(this.props.bannerSize.split("x")[0]), 
+                            bannerHeight: parseInt(this.props.bannerSize.split("x")[1])
+                        }
+                    );
+                    break;
+
+                case "DoubleClickManager":
+                    this.fs.copy(
+                        this.templatePath('BannerDoubleClickManager.js'),
+                        this.destinationPath('app/common/scripts/BannerDoubleClickManager.js')
+                    );
+                    break;
+
+                case "DoubleClickStudio":
+                    this.fs.copy(
+                        this.templatePath('BannerDoubleClickStudio.js'),
+                        this.destinationPath('app/common/scripts/BannerDoubleClickStudio.js')
+                    );
+                    break;
+
+                case "Sizmek":
+                    this.fs.copy(
+                        this.templatePath('BannerSizmek.js'),
+                        this.destinationPath('app/common/scripts/BannerSizmek.js')
+                    );
+                    break;
+
+                case "Flashtalking":
+                    this.fs.copy(
+                        this.templatePath('BannerFlashtalking.js'),
+                        this.destinationPath('app/common/scripts/BannerFlashtalking.js')
+                    );
+
+                    this.fs.copyTpl(
+                        this.templatePath('manifest.js'),
+                        this.destinationPath('app/common/manifest.js'), 
+                        {
+                            bannerWidth: parseInt(this.props.bannerSize.split("x")[0]), 
+                            bannerHeight: parseInt(this.props.bannerSize.split("x")[1])
+                        }
+                    );
+                    break;
+
+                case "None":
+                    this.fs.copy(
+                        this.templatePath('Banner.js'),
+                        this.destinationPath('app/common/scripts/Banner.js')
+                    );
             }
-
-            if (this.props.bannerType === "Sizmek") {
-                this.fs.copy(
-                    this.templatePath('BannerSizmek.js'),
-                    this.destinationPath('app/common/scripts/BannerSizmek.js')
-                );
-            }
-
-            if (this.props.bannerType === "Weborama") {
-                this.fs.copyTpl(
-                    this.templatePath('BannerWeborama.js'),
-                    this.destinationPath('app/common/scripts/BannerWeborama.js'),
-                    {
-                        bannerWidth: parseInt(this.props.bannerSize.split("x")[0]), 
-                        bannerHeight: parseInt(this.props.bannerSize.split("x")[1])
-                    }
-                );
-            }
-
-            if (this.props.bannerType === "Flashtalking") {
-                this.fs.copy(
-                    this.templatePath('BannerFlashtalking.js'),
-                    this.destinationPath('app/common/scripts/BannerFlashtalking.js')
-                );
-
-                this.fs.copyTpl(
-                    this.templatePath('manifest.js'),
-                    this.destinationPath('app/common/manifest.js'), 
-                    {
-                        bannerWidth: parseInt(this.props.bannerSize.split("x")[0]), 
-                        bannerHeight: parseInt(this.props.bannerSize.split("x")[1])
-                    }
-                );
-            } 
-
-            if (this.props.bannerType === "None") {
-                this.fs.copy(
-                    this.templatePath('Banner.js'),
-                    this.destinationPath('app/common/scripts/Banner.js')
-                );
-            }           
 
             this.fs.copy(
                 this.templatePath('Animation.js'),
@@ -271,8 +282,8 @@ module.exports = generators.Base.extend({
                     includeZepto: this.props.includeZepto,
                     includeTimeline: this.props.includeTimeline,
                     useLocales: this.props.useLocales,
-                    bannerWidth: this.props.bannerSize.split("x")[0], 
-                    bannerHeight: this.props.bannerSize.split("x")[1]
+                    bannerWidth: this.props.bannerSize.split('x')[0], 
+                    bannerHeight: this.props.bannerSize.split('x')[1]
                 }
             );
         },
@@ -294,7 +305,7 @@ module.exports = generators.Base.extend({
     end: function () {
         // var bowerJson = this.fs.readJSON(this.destinationPath('bower.json'));
         
-        var howToInstall = '\nRun ' + chalk.yellow.bold('npm install & bower install') + 'to install the dependencies.';
+        var howToInstall = '\nInstall skipped: run ' + chalk.yellow.bold('npm install & bower install') + ' to install the dependencies.';
 
         if (this.options['skip-install']) {
             this.log(howToInstall);

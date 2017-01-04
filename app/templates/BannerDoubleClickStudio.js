@@ -7,7 +7,6 @@ var isEnablerMode = true;
 
 var creative = {};
 
-
 app.Banner = (function() {
     /**
      * Window onload handler.
@@ -48,7 +47,9 @@ app.Banner = (function() {
             Enabler.addEventListener(studio.events.StudioEvent.VISIBLE, show);
         }
 
-        customDispatchEvent('READY');
+        var event = document.createEvent('Event');
+        event.initEvent('READY', false, true); 
+        window.dispatchEvent(event);
 
         app.Init.preload();
     }

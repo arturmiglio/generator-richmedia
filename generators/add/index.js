@@ -21,15 +21,16 @@ module.exports = yeoman.generators.Base.extend({
     // ---------------------------------------------------------------------------
     writing: {
         misc: function () {
-            mkdirp("app/" + this.bannerSize);
-            mkdirp("app/" + this.bannerSize + '/images');
-            mkdirp("app/" + this.bannerSize + '/fonts');
+            mkdirp('app/' + this.bannerSize);
+            mkdirp('app/' + this.bannerSize + '/images');
+            mkdirp('app/' + this.bannerSize + '/fonts');
+            mkdirp('app/' + this.bannerSize + '/backup');
         },
 
         scripts: function () {
             this.fs.copy(
-                this.templatePath('scripts/overrides.js'),
-                this.destinationPath('app/' + this.bannerSize + '/scripts/overrides.js')
+                this.templatePath('scripts/Overrides.js'),
+                this.destinationPath('app/' + this.bannerSize + '/scripts/Overrides.js')
             );
         },
 
@@ -44,8 +45,8 @@ module.exports = yeoman.generators.Base.extend({
                 this.templatePath('styles/config.scss'),
                 this.destinationPath('app/' + this.bannerSize + '/styles/config.scss'),
                 {
-                    bannerWidth: this.bannerSize.split("x")[0] + "px", 
-                    bannerHeight: this.bannerSize.split("x")[1] + "px"
+                    bannerWidth: this.bannerSize.split('x')[0] + 'px', 
+                    bannerHeight: this.bannerSize.split('x')[1] + 'px'
                 }
             );
 
@@ -53,6 +54,24 @@ module.exports = yeoman.generators.Base.extend({
                 this.templatePath('styles/overrides.scss'),
                 this.destinationPath('app/' + this.bannerSize + '/styles/overrides.scss')
             );
+
+        },
+
+        buildJSON: function () {
+                
+            var buildFile = this.destinationPath('build.json');
+
+            if ( this.fs.exists( buildFile ) ) {
+
+                var buildFileData = this.fs.readJSON( buildFile );
+
+                buildFileData.formats.push(this.bannerSize);
+
+                this.conflicter.force = true;
+
+                this.fs.writeJSON( this.destinationPath('build.json'), buildFileData );
+
+            }
 
         }
     }

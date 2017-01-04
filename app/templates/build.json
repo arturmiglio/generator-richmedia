@@ -1,6 +1,6 @@
 {
   "formats": [
-    "980x250"
+    "<%= bannerSize %>"
   ],
   "locales": [ 
     "es"

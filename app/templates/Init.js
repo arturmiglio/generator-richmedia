@@ -23,7 +23,7 @@ var firstLoadFiles = [
 
 app.Init = (function () {
 
-	this.addEventListener('READY', handleReady, false);
+	window.addEventListener('READY', handleReady, false);
 	window.addEventListener('FIRSTLOAD', handleLoaded, false);
 	window.addEventListener('load', initLoad);
 
@@ -61,7 +61,9 @@ app.Init = (function () {
 	}
 
 	function onFirstLoadComplete(){
-	  	customDispatchEvent('FIRSTLOAD');
+	  	var event = document.createEvent('Event');
+        event.initEvent('FIRSTLOAD', false, true); 
+        window.dispatchEvent(event);
 	}
 
 	// --------------------------------------------------------------------------------------
@@ -71,15 +73,3 @@ app.Init = (function () {
 	}
 
 })();
-
-
-// polifill for IE11
-function customDispatchEvent(type) {
-    try {
-        window.dispatchEvent(new Event(type));
-    } catch(e) {
-        var event = document.createEvent('Event');
-        event.initEvent(type, false, true); 
-        window.dispatchEvent(event);
-    }
-}

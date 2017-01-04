@@ -1,17 +1,13 @@
-// ===================================
-// ===== BannerFlashtalking.JS =======
-// ===================================
+// =======================
+// ===== Banner.JS =======
+// =======================
 var app = app || {}; 
 
-app.Banner = (function () {
-
-    var button; 
+app.Banner = (function () { 
 
     // --------------------------------------------------------------------------------------
+    // initialize
     function initialize() {
-        button = myFT.$("#button-exit");
-        myFT.applyClickTag(button, 1);
-
         var event = document.createEvent('Event');
         event.initEvent('READY', false, true); 
         window.dispatchEvent(event);
@@ -24,4 +20,5 @@ app.Banner = (function () {
     return { 
         initialize:initialize    
     }
+    
 })();

@@ -114,16 +114,16 @@ function setup(argv) {
     scripts: {
       init: [
         <% if (bannerType == 'None') { %>
-        paths.main.scripts.src + 'Banner.js',
+        paths.main.scripts.src + 'Banner.js', 
         <% } else { %>
-        paths.main.scripts.src + 'Banner<%= bannerType %>.js',
+        paths.main.scripts.src + 'Banner<%= bannerType %>.js', 
         <% } %>
         paths.main.scripts.src + 'Init.js',
       ],
       main: [
-        paths.main.scripts.src + 'main.js',
+        paths.main.scripts.src + 'Main.js',
         paths.main.scripts.src + 'Animation.js',
-        paths.size.scripts.src + 'overrides.js',
+        paths.size.scripts.src + 'Overrides.js',
       ],
       external: [
         
@@ -182,8 +182,8 @@ gulp.task('backup-image', function(){
   return gulp.src(appFiles.backupImage)
     .pipe(rename(env + '.jpg'))
     // copy twice, otherwise non-optimized images will be ignored
-    // .pipe(gulpif(config.zip,gulp.dest(String(appFiles.build))))
-    // .pipe(gulpif(config.zip, cache(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true }))))
+    .pipe(gulpif(config.zip,gulp.dest(String(appFiles.build))))
+    .pipe(gulpif(config.zip,cache(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true }))))
     .pipe(gulpif(config.zip,gulp.dest(String(appFiles.build))));
 });
 
@@ -301,12 +301,6 @@ gulp.task('locales', function(callback) {
     callback
   );
 });
-<% } else { %>
-gulp.task('locales', function(callback) {
-  runSequence('localize', 'cleanLocales',
-    callback
-  );
-});
 <% } %>
 
 gulp.task('default', function(callback) {
@@ -317,7 +311,11 @@ gulp.task('default', function(callback) {
   gulp.watch(appFiles.scripts.init, ['scripts']);
   gulp.watch(appFiles.scripts.main, ['scripts']);
   gulp.watch(appFiles.images, ['images']);
+  <% if (useLocales) { %>
   gulp.watch(appFiles.html, ['locales']);
+  <% } else { %>
+  gulp.watch(appFiles.html, ['html']);
+  <% } %>
 });
 
 gulp.task('build', ['setEnvToProd'], function(callback) {

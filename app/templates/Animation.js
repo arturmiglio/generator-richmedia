@@ -15,15 +15,15 @@ app.Animation = (function () {
 		title = document.getElementById('title');
 		caption = document.getElementById('caption');
 
-		TweenLite.set(title, {scale:0});
-		TweenLite.set(caption, {scale:0});
+		TweenLite.set(title, {scale:0, opacity: 0});
+		TweenLite.set(caption, {scale:0, opacity: 0});
 	}
 
 	// --------------------------------------------------------------------------------------
 	// Starts the animation
 	function start() {
-		TweenLite.to(title, 1, {scale:1, ease:Cubic.easeInOut});
-		TweenLite.to(caption, 1, {scale:1, ease:Cubic.easeInOut});
+		TweenLite.to(title, 1, {scale:1, opacity: 0, ease:Cubic.easeInOut});
+		TweenLite.to(caption, 1, {scale:1, opacity: 0, ease:Cubic.easeInOut});
 	} 
 
 	// --------------------------------------------------------------------------------------

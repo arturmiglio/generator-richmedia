@@ -1,9 +1,9 @@
 <!doctype html>
-<% if (useLocales) { %> 
+<% if (useLocales) { -%>
 <html lang="${{ _lang_ }}$">
-<% } else { %> 
-<html lang="es"> 
-<% } %>
+<% } else { -%>
+<html lang="es">
+<% } -%>
 <head>
     <% if (bannerType === 'Weborama') { %>
     <!-- ADRIME SCREENAD META DATA (don't edit/remove) -->
@@ -11,7 +11,7 @@
     <!-- SCRFORMAT: banner -->
     <!-- SCRWIDTH: <%= bannerWidth %> -->
     <!-- SCRHEIGHT: <%= bannerHeight %> -->
-    <% } %>
+    <% } -%>
 
     <meta charset="utf-8">
     <title><%= appname %></title>
@@ -19,26 +19,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="main.css">
 
-    <% if (bannerType === 'DoubleClick') { %><script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script><% } %>    
+    <% if (bannerType === 'DoubleClickStudio') { %><script src="https://s0.2mdn.net/ads/studio/Enabler.js"></script><% } %>    
     <% if (bannerType === 'Sizmek') { %><script src="https://secure-ds.serving-sys.com/BurstingScript/EBLoader.js"></script><% } %>
     <% if (bannerType === 'Weborama') { %><script type="text/javascript" src="//media.adrcdn.com/scripts/screenad_interface_1.0.3_scrambled.js"></script><% } %>
 
+    <% if (bannerType === 'DoubleClickManager') { %>
+    <script type="text/javascript">
+        var clickTag = "http://www.google.com";
+        window.bannerWidth = <%= bannerWidth %>;
+        window.bannerHeight = <%= bannerHeight %>;
+    </script>
+    <% } else { %>
+    <script type="text/javascript">
+        window.bannerWidth = <%= bannerWidth %>;
+        window.bannerHeight = <%= bannerHeight %>;
+    </script>
+    <% } -%>
+
 </head>
-<% if (useLocales) { %>
+<% if (useLocales) { -%>
 <body class="${{ _lang_ }}$">
-<% } else { %> 
+<% } else { -%> 
 <body> 
-<% } %>
-    <div id="banner">        
-        <h1 id="title">Freakin Banners!</h1>
-        <p id="caption">Get some</p>
-        <div id="border"></div>
-        <div id="button-exit"></div>        
+<% } -%>
+    <div id="banner">
+        <% if (bannerType === 'DoubleClickManager') { %>
+        <a href="javascript:window.open(window.clickTag);" id="button-exit">
+        <% } else { %>
+        <a id="button-exit">
+        <% } %>
+            <h1 id="title">Freakin Banners!</h1>
+            <p id="caption">Get some</p>
+            <div id="border"></div>
+        </a>
     </div>
 
-    <script src="https://s0.2mdn.net/ads/studio/cached_libs/preloadjs_0.6.2_d7b96570d4552592ae479162e546cb25_min.js"></script>
     <% if (bannerType === 'Flashtalking') { %><script src="http://cdn.flashtalking.com/frameworks/js/api/2/9/html5API.js"></script><% } %>
-
+    <script src="https://s0.2mdn.net/ads/studio/cached_libs/preloadjs_0.6.2_d7b96570d4552592ae479162e546cb25_min.js"></script>
     <script src="init.js"></script>
 </body>
 </html>

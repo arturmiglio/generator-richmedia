@@ -16,7 +16,6 @@ body {
     margin-top: -$banner-height / 2;
 
     #button-exit {
-        background-color: rgba(255, 255, 255, 0);
         cursor: pointer;
         height: 100%;
         left: 0px;
@@ -43,9 +42,11 @@ body {
         letter-spacing: -1px;
         color: #ff0000;
         text-align: center;
+        opacity: 0;
     }
 
     #caption {
         text-align: center;
+        opacity: 0;
     }
 }
