@@ -1,3 +1,4 @@
-@import "config";
-@import "../../common/styles/main";
-@import "overrides";
+@import '../../common/styles/mixins';
+@import 'config';
+@import '../../common/styles/main';
+@import 'overrides';

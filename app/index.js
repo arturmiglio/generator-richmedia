@@ -270,6 +270,11 @@ module.exports = generators.Base.extend({
                 this.destinationPath('app/common/styles/main.scss')
             );
 
+            this.fs.copy(
+                this.templatePath('mixins.scss'),
+                this.destinationPath('app/common/styles/mixins.scss')
+            );
+
         },
 
         html: function () {
